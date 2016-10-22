@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<h:outputStylesheet library="css" name="main.css" />
+	<h:outputScript library="script" name="login.js" />
+</h:head>
+<body>
+	<p:layout id="layoutPrincipal" fullPage="true">
+		<p:layoutUnit id="layoutPrincipal_layoutNorte" position="north" size="200" styleClass="noBorder">
+			<p:layout id="layoutPrincipal_layoutNorte_layoutHeader">
+				<p:layoutUnit id="layoutPrincipal_layoutNorte_layoutHeader_layoutOeste" position="west" size="250" styleClass="noBorder">
+					<p:link id="linkImagemLogo" href="index.xhtml">
+						<h:graphicImage id="graphicImageLogo" library="imagens" name="logoEptv.png" />
+					</p:link>
+				</p:layoutUnit>
+				<p:layoutUnit id="layoutPrincipal_layoutNorte_layoutHeader_layoutLeste" position="east" size="250" styleClass="noBorder" />
+				<p:layoutUnit id="layoutPrincipal_layoutNorte_layoutHeader_layoutCentro" position="center" styleClass="noBorder">
+					<h:outputLabel id="lblTitulo" value="Gerenciador de Ambientes" />
+				</p:layoutUnit>
+				<p:layoutUnit id="layoutPrincipal_layoutNorte_layoutHeader_layoutSul" position="south" size="55">
+					<h:form id="formLogin">
+						<p:outputLabel id="lblUsuarioLogado" value="Usuario #{usuarioLogado.nome} logado!" rendered="#{usuarioBean.Logado()}" />
+						<p:commandButton id="btnDeslogar" value="Sair" actionListener="#{usuarioBean.Deslogar()}" update="formLogin" rendered="#{usuarioBean.Logado()}" />
+
+						<h:outputLabel id="lblLogin" value="Login: " rendered="#{usuarioBean.Logado()==false}" />
+						<p:inputText id="edtLogin" value="#{usuarioBean.login}" size="10" style="margin-right:10px" rendered="#{usuarioBean.Logado()==false}" />
+						<h:outputLabel id="lblSenha" value="Senha: " rendered="#{usuarioBean.Logado()==false}" />
+						<p:password id="edtSenha" value="#{usuarioBean.senha}" size="10" style="margin-right:10px" rendered="#{usuarioBean.Logado()==false}" />
+						<p:commandButton value="Entrar" id="btnLogar" actionListener="#{usuarioBean.Logar()}" style="margin-right:10px" update="formLogin"
+							rendered="#{usuarioBean.Logado()==false}" />
+						<p:commandLink id="linkCadastrar" value="Cadastrar-se" onclick="PF('dlgLoginAdmin').show();" style="margin-right:10px"
+							rendered="#{usuarioBean.Logado()==false}" />
+					</h:form>
+				</p:layoutUnit>
+			</p:layout>
+		</p:layoutUnit>
+		<p:layoutUnit id="layoutPrincipal_layoutSul" position="south" size="50">
+			<p:layout id="layoutPrincipal_layoutSul_layoutFooter">
+				<p:layoutUnit id="layoutPrincipal_layoutSul_layoutFooter_layoutOeste" styleClass="noBorder" position="west" size="250" />
+				<p:layoutUnit id="layoutPrincipal_layoutSul_layoutFooter_layoutLeste" styleClass="noBorder" position="east" size="250">
+					<h:form id="formDataHora">
+						<h:outputText value="#{currentDate}" style="float:right" id="dataHoraPagina">
+							<f:convertDateTime type="both" timeZone="America/Sao_Paulo" />
+						</h:outputText>
+						<p:poll id="pollDataHora" interval="1" update="dataHoraPagina" />
+					</h:form>
+				</p:layoutUnit>
+				<p:layoutUnit id="layoutPrincipal_layoutSul_layoutFooter_layoutCentro" styleClass="noBorder" position="center">
+					<h:outputLabel id="lblDesenvolvidoPor" value="Desenvolvido por Eptv São Carlos 2016" />
+				</p:layoutUnit>
+			</p:layout>
+		</p:layoutUnit>
+		<p:layoutUnit id="layoutPrincipal_layoutOeste" position="west" size="250" header="Menu">
+			<h:form id="formMenu">
+				<p:panelMenu id="pnlMenu" style="width:240px" model="#{menuBean.menuModel}" />
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit id="layoutPrincipal_layoutCentro" position="center">
+			<h:form id="formConteudo">
+				<ui:insert name="conteudo" />
+			</h:form>
+			<h:form id="formDlg">
+				<p:growl id="msgLogin" sticky="true" />
+				<p:dialog id="dlgLoginAdministrativo" header="Login Administrativo" widgetVar="dlgLoginAdmin" resizable="false">
+					<h:panelGrid id="pnlLoginAdministrativo" columns="2" cellpadding="5">
+						<h:outputLabel id="lblUsername" for="edtUsername" value="Username:" />
+						<p:inputText id="edtUsername" value="#{loginAdminBean.username}" required="true" label="username" />
+						<h:outputLabel id="lblPassword" for="edtPassword" value="Password:" />
+						<p:password id="edtPassword" value="#{loginAdminBean.password}" required="true" label="password" />
+						<f:facet name="footer">
+							<p:commandButton id="btnLogarAdmin" value="Login" update="msgLogin" actionListener="#{loginAdminBean.login}"
+								action="#{loginAdminBean.verificarLogin}" oncomplete="handleLoginRequest(xhr, status, args)" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</body>
+</html>

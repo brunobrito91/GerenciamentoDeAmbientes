@@ -1,0 +1,34 @@
+#layoutPrincipal_layoutNorte_layoutHeader_layoutCentro {
+	text-align: center;
+	font-size: 60px;
+}
+
+#layoutPrincipal_layoutNorte_layoutHeader_layoutSul {
+	padding: 5px;
+}
+
+#formLogin {
+	float: right;
+}
+
+.login {
+	margin-right: 20px;
+}
+
+#graphicImageLogo {
+	margin-left: 65px;
+	width: 105px;
+}
+
+#layoutPrincipal_layoutSul {
+	text-align: center;
+}
+
+#formDataHora {
+	float: right;
+	padding-right: 5px;
+}
+
+.noBorder {
+	border: none;
+}
