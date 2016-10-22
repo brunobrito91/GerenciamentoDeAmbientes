@@ -1,0 +1,103 @@
+06/09/2016 18:51:59 - ejb:/GerenciamentoDeAmbientesEJB//DispositivoFacadeImpl!com.facade.DispositivoFacade
+06/09/2016 18:51:59 - ejb:/GerenciamentoDeAmbientesEJB//AmbienteFacadeImpl!com.facade.AmbienteFacade
+06/09/2016 18:51:59 - ejb:/GerenciamentoDeAmbientesEJB//UsuarioFacadeImpl!com.facade.UsuarioFacade
+06/09/2016 18:52:00 - 6 ambientes cadastrados
+06/09/2016 18:52:00 - Ambiente10 - id: 1
+06/09/2016 18:52:00 - Ambiente 1 - id: 2
+06/09/2016 18:52:00 - Ambiente 2 - id: 3
+06/09/2016 18:52:00 - Ambiente 3 - id: 4
+06/09/2016 18:52:00 - Ambiente 4 - id: 5
+06/09/2016 18:52:00 - Ambiente 5 - id: 6
+06/09/2016 18:52:00 - Ambiente : Ambiente 1
+06/09/2016 18:52:00 - Temperatura igual a 29
+06/09/2016 18:52:01 - Temperatura atualizada para 26
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 26
+06/09/2016 18:52:01 - Temperatura atualizada para 0
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 0
+06/09/2016 18:52:01 - Temperatura atualizada para 1
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 1
+06/09/2016 18:52:01 - Temperatura atualizada para 2
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 2
+06/09/2016 18:52:01 - Temperatura atualizada para 3
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 3
+06/09/2016 18:52:01 - Temperatura atualizada para 4
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 4
+06/09/2016 18:52:01 - Temperatura atualizada para 5
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 5
+06/09/2016 18:52:01 - Temperatura atualizada para 6
+06/09/2016 18:52:01 - Ambiente : Ambiente 1
+06/09/2016 18:52:01 - Temperatura igual a 6
+06/09/2016 18:52:02 - Temperatura atualizada para 7
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 7
+06/09/2016 18:52:02 - Temperatura atualizada para 8
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 8
+06/09/2016 18:52:02 - Temperatura atualizada para 9
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 9
+06/09/2016 18:52:02 - Temperatura atualizada para 10
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 10
+06/09/2016 18:52:02 - Temperatura atualizada para 11
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 11
+06/09/2016 18:52:02 - Temperatura atualizada para 12
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 12
+06/09/2016 18:52:02 - Temperatura atualizada para 13
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 13
+06/09/2016 18:52:02 - Temperatura atualizada para 14
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 14
+06/09/2016 18:52:02 - Temperatura atualizada para 15
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 15
+06/09/2016 18:52:02 - Temperatura atualizada para 16
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 16
+06/09/2016 18:52:02 - Temperatura atualizada para 17
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 17
+06/09/2016 18:52:02 - Temperatura atualizada para 18
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 18
+06/09/2016 18:52:02 - Temperatura atualizada para 19
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 19
+06/09/2016 18:52:02 - Temperatura atualizada para 20
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 20
+06/09/2016 18:52:02 - Temperatura atualizada para 21
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 21
+06/09/2016 18:52:02 - Temperatura atualizada para 22
+06/09/2016 18:52:02 - Ambiente : Ambiente 1
+06/09/2016 18:52:02 - Temperatura igual a 22
+06/09/2016 18:52:03 - Temperatura atualizada para 23
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 23
+06/09/2016 18:52:03 - Temperatura atualizada para 24
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 24
+06/09/2016 18:52:03 - Temperatura atualizada para 25
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 25
+06/09/2016 18:52:03 - Temperatura atualizada para 26
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 26
+06/09/2016 18:52:03 - Temperatura atualizada para 27
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 27
+06/09/2016 18:52:03 - Temperatura atualizada para 28
+06/09/2016 18:52:03 - Ambiente : Ambiente 1
+06/09/2016 18:52:03 - Temperatura igual a 28
+06/09/2016 18:52:03 - Temperatura atualizada para 29
