@@ -107,7 +107,7 @@ public class UsuarioBean implements Serializable {
 		return usuariosCadastrados;
 	}
 
-	public void Logar() {
+	public String Logar() {
 		HashMap<String, Usuario> usuariosCadastrados = listaDeUsuarios();
 
 		Usuario user = usuariosCadastrados.get(this.getUsuario().getLogin());
@@ -116,17 +116,24 @@ public class UsuarioBean implements Serializable {
 			HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 			if (user.getSenha().equals(this.getUsuario().getSenha())) {
 				session.setAttribute("usuarioLogado", user);
+				String uri = ((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI();
+				String[] str = uri.split("/");
+				return str[2] + "?faces-redirect=true";
 			} else {
 				session.invalidate();
 			}
 		}
+		return "";
 	}
 
-	public void Deslogar() {
+	public String Deslogar() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
 		HttpSession session = (HttpSession) request.getSession();
 		session.removeAttribute("usuarioLogado");
+		String uri = ((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI();
+		String[] str = uri.split("/");
+		return str[2] + "?faces-redirect=true";
 	}
 
 	public String salvarUsuario() {
@@ -136,13 +143,28 @@ public class UsuarioBean implements Serializable {
 		} else {
 			_usuarioFacadeImpl.save(usuario);
 			addMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado com sucesso!");
-			return "index.xhtml?faces-redirect=true";
+			usuario = new Usuario();
+			return "";
 		}
 	}
 
 	private boolean usuarioExiste(Usuario usuario) {
 		HashMap<String, Usuario> usuariosCadastrados = listaDeUsuarios();
 		return usuariosCadastrados.get(usuario.getLogin()) != null;
+	}
+
+	public boolean getIsAdministrador() {
+		if (Logado()) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+			HttpSession session = (HttpSession) request.getSession();
+			Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+			if ((usuario.getLogin().equals("eptv"))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addMessage(Severity severity, String mensagem) {

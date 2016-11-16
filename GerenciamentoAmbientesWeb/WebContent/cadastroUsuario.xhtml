@@ -21,17 +21,11 @@
 						<h:outputLabel id="lblSenhaUsuario" value="Senha: *" />
 						<p:password id="edtSenhaUsuario" value="#{usuarioBean.senha}" label="Senha" required="true" />
 						<h:outputLabel />
-						<p:commandButton id="btnSalvarUsuario" value="Salvar" update="formConteudo:msgConteudo" action="#{usuarioBean.salvarUsuario}"
+						<p:commandButton id="btnSalvarUsuario" value="Salvar" update="formConteudo" action="#{usuarioBean.salvarUsuario}"
 							actionListener="#{ipBean.salvarIp}" style="float:right;" />
 					</h:panelGrid>
 				</p:tab>
-				<p:tab title="Ip" id="tabCadastroIp">
-					<h:panelGrid columns="3" cellpadding="5" id="pnlCadastroIp">
-						<h:outputLabel id="lblIp" value="IP: *" />
-						<p:inputText id="edtIp" value="#{ipBean.ipString}" required="true" label="Ip" />
-						<p:commandButton id="btnSalvarIp" value="Salvar" update="formConteudo:msgConteudo" action="#{ipBean.salvarIp}" style="float:right;" />
-					</h:panelGrid>
-				</p:tab>
+
 			</p:accordionPanel>
 		</p:panel>
 	</ui:define>

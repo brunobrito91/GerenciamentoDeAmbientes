@@ -51,6 +51,7 @@ public class AmbienteBean implements Serializable {
 		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 
 		ambiente = (Ambiente) session.getAttribute("ambienteEscolhido");
+
 	}
 
 	public String exibirPaginaAmbienteEscolhido(ActionEvent event) {

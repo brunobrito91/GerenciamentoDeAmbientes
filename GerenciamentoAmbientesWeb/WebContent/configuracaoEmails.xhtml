@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<ui:define name="conteudo">
+		<p:growl id="msgConteudo" sticky="true" />
+		<p:panel header="Configuração - E-mails" id="pnlConfiguracaoEmails">
+			<h:panelGrid columns="3" cellpadding="5" id="pnlInclusaoEmail" style="padding:30px 0px 30px 0px">
+				<h:outputLabel id="lblEmail" value="E-mail: " />
+				<p:inputText id="edtEmail" value="#{configuracaoEmailBean.email}" label="E-mail" size="50" />
+				<p:commandButton id="btnSalvarEmail" value="Incluir" update="formConteudo" action="#{configuracaoEmailBean.salvarEmail}" style="float:right;" />
+			</h:panelGrid>
+
+			<!--<p:dataList value="#{configuracaoEmailBean.listaDeEmails}" var="email" type="ordered" style="padding:30px 0px 30px 0px">
+				<f:facet name="header">
+            			Emails Cadastrados
+        		</f:facet>
+       					#{email.email}
+    		</p:dataList>-->
+
+			<p:dataTable id="singleDT" value="#{configuracaoEmailBean.listaDeEmails}" var="email" selectionMode="single"
+				selection="#{configuracaoEmailBean.emailSelecionado}" rowKey="#{email.email}">
+				<f:facet name="header">
+            		Emails Cadastrados
+       			 </f:facet>
+				<p:ajax event="rowSelect" listener="#{configuracaoEmailBean.onRowSelect}" update="formConteudo:pnlAssociacaoAmbientesEmails" />
+				<p:column width="40">
+					<h:outputText value="#{email.email}" />
+				</p:column>
+			</p:dataTable>
+
+
+			<h:panelGrid columns="1" cellpadding="5" id="pnlAssociacaoAmbientesEmails" style="padding:30px 0px 30px 0px">
+				<p:pickList id="pickList" value="#{configuracaoEmailBean.listaDeAmbientes}" var="ambiente" itemLabel="#{ambiente}" itemValue="#{ambiente}"
+					converter="ambienteConverter" />
+
+				<p:commandButton id="btnSalvarConfiguracao" value="Vincular" style="margin-top:5px" update="formConteudo:msgConteudo"
+					action="#{configuracaoEmailBean.vincular}" />
+			</h:panelGrid>
+		</p:panel>
+	</ui:define>
+</ui:composition>

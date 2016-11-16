@@ -50,6 +50,23 @@ public class MenuBean implements Serializable {
 
 		menuModel.addElement(subMenu);
 
+		UsuarioBean usuarioBean = new UsuarioBean();
+		if (usuarioBean.getIsAdministrador()) {
+			DefaultSubMenu subMenuConfiguracoes = new DefaultSubMenu("Configurações");
+			
+			DefaultMenuItem menuItemEmails = new DefaultMenuItem("Emails");
+			menuItemEmails.setCommand("configuracaoEmails.xhtml?faces-redirect=true");
+			// menuItemEmails.setCommand("#{configuracaoEmailBean.exibirPagina}");
+			subMenuConfiguracoes.addElement(menuItemEmails);
+
+			DefaultMenuItem menuItemIps = new DefaultMenuItem("Ips");
+			menuItemIps.setCommand("configuracaoIps.xhtml?faces-redirect=true");
+			// menuItemIps.setCommand("#{configuracaoEmailBean.exibirPagina}");
+			subMenuConfiguracoes.addElement(menuItemIps);
+			
+			menuModel.addElement(subMenuConfiguracoes);
+		}
+
 	}
 
 	public DefaultMenuModel getMenuModel() {

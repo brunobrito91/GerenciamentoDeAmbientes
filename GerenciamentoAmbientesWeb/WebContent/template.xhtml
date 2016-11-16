@@ -21,13 +21,13 @@
 				<p:layoutUnit id="layoutPrincipal_layoutNorte_layoutHeader_layoutSul" position="south" size="55">
 					<h:form id="formLogin">
 						<p:outputLabel id="lblUsuarioLogado" value="Usuario #{usuarioLogado.nome} logado!" rendered="#{usuarioBean.Logado()}" />
-						<p:commandButton id="btnDeslogar" value="Sair" actionListener="#{usuarioBean.Deslogar()}" update="formLogin" rendered="#{usuarioBean.Logado()}" />
+						<p:commandButton id="btnDeslogar" value="Sair" action="#{usuarioBean.Deslogar()}" update="formLogin" rendered="#{usuarioBean.Logado()}" />
 
 						<h:outputLabel id="lblLogin" value="Login: " rendered="#{usuarioBean.Logado()==false}" />
 						<p:inputText id="edtLogin" value="#{usuarioBean.login}" size="10" style="margin-right:10px" rendered="#{usuarioBean.Logado()==false}" />
 						<h:outputLabel id="lblSenha" value="Senha: " rendered="#{usuarioBean.Logado()==false}" />
 						<p:password id="edtSenha" value="#{usuarioBean.senha}" size="10" style="margin-right:10px" rendered="#{usuarioBean.Logado()==false}" />
-						<p:commandButton value="Entrar" id="btnLogar" actionListener="#{usuarioBean.Logar()}" style="margin-right:10px" update="formLogin"
+						<p:commandButton value="Entrar" id="btnLogar" action="#{usuarioBean.Logar()}" style="margin-right:10px" update="formLogin"
 							rendered="#{usuarioBean.Logado()==false}" />
 						<p:commandLink id="linkCadastrar" value="Cadastrar-se" onclick="PF('dlgLoginAdmin').show();" style="margin-right:10px"
 							rendered="#{usuarioBean.Logado()==false}" />

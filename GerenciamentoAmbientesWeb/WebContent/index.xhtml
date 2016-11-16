@@ -5,7 +5,7 @@
 	
 	<ui:define name="conteudo">
 		<p:growl id="msgConteudo" sticky="true" />
-		<p:carousel value="#{ambienteBean.ambientes}" headerText="Ambientes" var="ambiente" itemStyle="text-align:center" responsive="true">
+		<p:carousel value="#{ambienteBean.ambientes}" headerText="Ambientes" var="ambiente" itemStyle="text-align:center" numVisible="6" responsive="true">
 			<p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank"
 				id="pnlDadosAmbiente">
 				<f:facet name="header">

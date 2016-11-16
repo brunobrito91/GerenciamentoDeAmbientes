@@ -46,7 +46,7 @@ public class IpBean implements Serializable {
 		} else {
 			_ipFacadeImpl.save(ip);
 			addMessage(FacesMessage.SEVERITY_INFO, "Ip cadastrado com sucesso!");
-			return "index.xhtml?faces-redirect=true";
+			return "";
 		}
 	}
 
@@ -56,7 +56,7 @@ public class IpBean implements Serializable {
 	}
 
 	private boolean IpExiste(Ip ip) {
-		List<Ip> ipsCadastrados = listaDeIps();
+		List<Ip> ipsCadastrados = getListaDeIps();
 		for (Ip ipCadastrado : ipsCadastrados) {
 			if (ipCadastrado.getIp().equals(ip.getIp())) {
 				return true;
@@ -65,7 +65,7 @@ public class IpBean implements Serializable {
 		return false;
 	}
 
-	private List<Ip> listaDeIps() {
+	public List<Ip> getListaDeIps() {
 		List<Ip> ipsCadastrados = _ipFacadeImpl.findAll();
 		return ipsCadastrados;
 	}

@@ -6,17 +6,17 @@
 
 	<ui:define name="conteudo">
 		<p:growl id="msgConteudo" sticky="true" />
-		<p:panel header="Ambiente" id="pnlAmbiente">
+		<p:panel header="Ambiente - #{ambienteBean.nome}" id="pnlAmbiente">
 			<p:accordionPanel id="acordionAmbiente">
 				<p:tab title="Dados" id="tabDadosAmbiente">
 					<h:panelGrid columns="2" cellpadding="5" id="pnlDadosAmbiente">
 						<h:outputText id="txtAmbiente" value="Ambiente: " />
-						<h:inputText id="edtNomeAmbiente" value="#{ambienteBean.nome}" />
+						<h:inputText id="edtNomeAmbiente" value="#{ambienteBean.nome}" readonly="#{not usuarioBean.isAdministrador}" />
 						<h:outputText id="txtAlerta" value="Temp. Alerta: " />
-						<h:inputText id="edtTemperaturaAlertaAmbiente" value="#{ambienteBean.temperaturaAlerta}" />
+						<h:inputText id="edtTemperaturaAlertaAmbiente" value="#{ambienteBean.temperaturaAlerta}" readonly="#{not usuarioBean.isAdministrador}" />
 						<h:outputText />
-						<p:commandButton id="btnAtualizarAmbiente" value="Atualizar" ajax="false" update="msgConteudo" action="#{ambienteBean.atualizarAmbiente}"
-							style="float:right;" />
+						<p:commandButton id="btnAtualizarAmbiente" value="Atualizar" ajax="false" update="msgConteudo" rendered="#{usuarioBean.isAdministrador}"
+							action="#{ambienteBean.atualizarAmbiente}" style="float:right;" />
 					</h:panelGrid>
 				</p:tab>
 				<p:tab title="Relatório" id="tabRelatorio">
