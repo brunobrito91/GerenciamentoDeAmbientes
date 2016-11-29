@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import com.model.Ambiente;
 import com.model.Ambiente.MedicaoTemperatura;
@@ -21,6 +24,17 @@ public class AmbienteDAO extends GenericDAOImpl<Ambiente> {
 	public void delete(Ambiente ambiente) {
 		super.delete(ambiente.getId(), Ambiente.class);
 		System.out.println("AmbienteDAO - delete");
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Ambiente> findAll() {
+		System.out.println("GenericDAOImpl - findAll ");
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery cq = criteriaBuilder.createQuery();
+		Root<Ambiente> select = cq.from(Ambiente.class);
+		cq.select(select);
+		cq.orderBy(criteriaBuilder.asc(select.get("ordem")));
+		return em.createQuery(cq).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,6 +79,36 @@ public class AmbienteDAO extends GenericDAOImpl<Ambiente> {
 		query.setParameter("temperatura", medicao.getTemperatura());
 
 		query.executeUpdate();
+	}
+
+	public void saveEmail(int idAmbiente, String email) {
+		Query query = em.createNativeQuery(
+				"INSERT INTO gerenciamentodeambientes.ambiente_email(Ambiente_id, emails_email) VALUES(:id, :email)");
+		query.setParameter("id", idAmbiente);
+		query.setParameter("email", email);
+
+		query.executeUpdate();
+	}
+
+	public void deleteEmail(int idAmbiente, String email) {
+		Query query = em.createNativeQuery(
+				"DELETE FROM gerenciamentodeambientes.ambiente_email WHERE Ambiente_id=:id AND emails_email=:email");
+		query.setParameter("id", idAmbiente);
+		query.setParameter("email", email);
+
+		query.executeUpdate();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Ambiente> findAllAtivos() {
+		System.out.println("GenericDAOImpl - findAll ");
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery cq = criteriaBuilder.createQuery();
+		Root<Ambiente> select = cq.from(Ambiente.class);
+		cq.select(select);
+		cq.where(criteriaBuilder.equal(select.get("ativo"), 1));
+		cq.orderBy(criteriaBuilder.asc(select.get("ordem")));
+		return em.createQuery(cq).getResultList();
 	}
 
 }

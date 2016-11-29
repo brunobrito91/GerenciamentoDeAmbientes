@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,7 +27,9 @@ public class Ambiente implements Serializable {
 	@GeneratedValue
 	private int id;
 
+	private int ordem;
 	private int numero;
+	private boolean ativo;
 
 	private String nome;
 	private int temperaturaAlerta;
@@ -38,6 +41,9 @@ public class Ambiente implements Serializable {
 
 	@ManyToOne
 	private Dispositivo dispositivo;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Email> emails;
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	private Set<MedicaoTemperatura> medicoesTemperatura;
@@ -53,10 +59,13 @@ public class Ambiente implements Serializable {
 		this.medicoesStatusPresenca = new ArrayList<MedicaoStatusPresenca>();
 		this.medicoesStatusJanela = new ArrayList<MedicaoStatusJanela>();
 		this.medicoesStatusCondicionadorAr = new ArrayList<MedicaoStatusCondicionadorAr>();
+
+		this.emails = new HashSet<Email>();
 	}
 
 	public Ambiente(int numero, Dispositivo dispositivo) {
 		this.setNumero(numero);
+		this.ativo = true;
 		this.setNome("Ambiente " + numero);
 		this.setTemperaturaAlerta(30);
 
@@ -67,6 +76,8 @@ public class Ambiente implements Serializable {
 		this.medicoesStatusPresenca = new ArrayList<MedicaoStatusPresenca>();
 		this.medicoesStatusJanela = new ArrayList<MedicaoStatusJanela>();
 		this.medicoesStatusCondicionadorAr = new ArrayList<MedicaoStatusCondicionadorAr>();
+
+		this.emails = new HashSet<Email>();
 	}
 
 	public int getId() {
@@ -77,12 +88,28 @@ public class Ambiente implements Serializable {
 		this.id = id;
 	}
 
+	public int getOrdem() {
+		return ordem;
+	}
+
+	public void setOrdem(int ordem) {
+		this.ordem = ordem;
+	}
+
 	public int getNumero() {
 		return numero;
 	}
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public String getNome() {
@@ -111,8 +138,9 @@ public class Ambiente implements Serializable {
 
 	public void setTemperatura(int temperatura) {
 		this.temperatura = temperatura;
-//		MedicaoTemperatura medicao = new MedicaoTemperatura(String.valueOf(temperatura), new Date());
-//		medicoesTemperatura.add(medicao);
+		// MedicaoTemperatura medicao = new
+		// MedicaoTemperatura(String.valueOf(temperatura), new Date());
+		// medicoesTemperatura.add(medicao);
 	}
 
 	public boolean temPresenca() {
@@ -548,20 +576,8 @@ public class Ambiente implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dispositivo == null) ? 0 : dispositivo.hashCode());
 		result = prime * result + id;
-		result = prime * result
-				+ ((medicoesStatusCondicionadorAr == null) ? 0 : medicoesStatusCondicionadorAr.hashCode());
-		result = prime * result + ((medicoesStatusJanela == null) ? 0 : medicoesStatusJanela.hashCode());
-		result = prime * result + ((medicoesStatusPresenca == null) ? 0 : medicoesStatusPresenca.hashCode());
-		result = prime * result + ((medicoesTemperatura == null) ? 0 : medicoesTemperatura.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + numero;
-		result = prime * result + (statusCondicionadorAr ? 1231 : 1237);
-		result = prime * result + (statusJanela ? 1231 : 1237);
-		result = prime * result + (statusPresenca ? 1231 : 1237);
-		result = prime * result + temperatura;
-		result = prime * result + temperaturaAlerta;
 		return result;
 	}
 
@@ -571,52 +587,15 @@ public class Ambiente implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Ambiente))
 			return false;
 		Ambiente other = (Ambiente) obj;
-		if (dispositivo == null) {
-			if (other.dispositivo != null)
-				return false;
-		} else if (!dispositivo.equals(other.dispositivo))
-			return false;
 		if (id != other.id)
-			return false;
-		if (medicoesStatusCondicionadorAr == null) {
-			if (other.medicoesStatusCondicionadorAr != null)
-				return false;
-		} else if (!medicoesStatusCondicionadorAr.equals(other.medicoesStatusCondicionadorAr))
-			return false;
-		if (medicoesStatusJanela == null) {
-			if (other.medicoesStatusJanela != null)
-				return false;
-		} else if (!medicoesStatusJanela.equals(other.medicoesStatusJanela))
-			return false;
-		if (medicoesStatusPresenca == null) {
-			if (other.medicoesStatusPresenca != null)
-				return false;
-		} else if (!medicoesStatusPresenca.equals(other.medicoesStatusPresenca))
-			return false;
-		if (medicoesTemperatura == null) {
-			if (other.medicoesTemperatura != null)
-				return false;
-		} else if (!medicoesTemperatura.equals(other.medicoesTemperatura))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
-			return false;
-		if (numero != other.numero)
-			return false;
-		if (statusCondicionadorAr != other.statusCondicionadorAr)
-			return false;
-		if (statusJanela != other.statusJanela)
-			return false;
-		if (statusPresenca != other.statusPresenca)
-			return false;
-		if (temperatura != other.temperatura)
-			return false;
-		if (temperaturaAlerta != other.temperaturaAlerta)
 			return false;
 		return true;
 	}
@@ -635,5 +614,13 @@ public class Ambiente implements Serializable {
 		// medicoesStatusCondicionadorAr="
 		// + medicoesStatusCondicionadorAr + "]";
 		return nome;
+	}
+
+	public Set<Email> getEmails() {
+		return emails;
+	}
+
+	public void setEmails(Set<Email> emails) {
+		this.emails = emails;
 	}
 }

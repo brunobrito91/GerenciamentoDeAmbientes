@@ -7,7 +7,9 @@ import java.util.Map.Entry;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	private final static String UNIT_NAME = "CrudGerenciamentoDeAmbientesPU";
@@ -55,8 +57,11 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<T> findAll() {
 		System.out.println("GenericDAOImpl - findAll ");
-		CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-		cq.select(cq.from(entityClass));
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery cq = criteriaBuilder.createQuery();
+		Root<T> select = cq.from(entityClass);
+		cq.select(select);
+
 		return em.createQuery(cq).getResultList();
 	}
 

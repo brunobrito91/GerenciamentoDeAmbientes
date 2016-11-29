@@ -20,8 +20,14 @@ public interface AmbienteFacade {
 	public abstract Ambiente find(int entityID);
 
 	public abstract List<Ambiente> findAll();
+	
+	public abstract List<Ambiente> findAllAtivos();
 
 	public List<MedicaoTemperatura> findMedicoesByDate(int id, Date data);
 
 	public abstract void saveMedicao(int id, MedicaoTemperatura medicao);
+	
+	public abstract void saveEmail(int id, String email);
+
+	public abstract void deleteEmail(int id, String email);
 }
