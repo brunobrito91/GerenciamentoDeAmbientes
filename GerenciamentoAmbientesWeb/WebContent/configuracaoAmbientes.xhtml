@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<ui:define name="conteudo">
+		<p:growl id="msgConteudo" sticky="true" />
+		<p:panel header="Configuração - Ambientes" id="pnlConfiguracaoAmbientes">
+			<p:accordionPanel id="acordionConfiguracaoAmbiente">
+				<p:tab title="Ordenação" id="tabOrdenacao">
+					<p:orderList value="#{ambienteBean.ambientesOrdenados}" itemValue="#{ambiente}" itemLabel="#{ambiente.nome}" var="ambiente"
+						converter="ambienteConverter" controlsLocation="right" responsive="true">
+
+					</p:orderList>
+					<p:commandButton value="Salvar" update="@all" action="#{ambienteBean.salvarOrdenacaoAmbiente}" />
+				</p:tab>
+				<p:tab title="Habilitar/Desabilitar" id="tabHabilitarDesabilitar">
+					<p:selectManyCheckbox id="selectCheckbox" value="#{ambienteBean.ambientesSelecionados}" layout="responsive" columns="1">
+						<f:selectItems value="#{ambienteBean.ambientes}" var="ambiente" itemLabel="#{ambiente}" itemValue="#{ambiente.id}" />
+					</p:selectManyCheckbox>
+					<p:commandButton value="Salvar" update="@all" action="#{ambienteBean.salvarHabilitarDesabilitarAmbiente}" />
+				</p:tab>
+			</p:accordionPanel>
+		</p:panel>
+	</ui:define>
+</ui:composition>

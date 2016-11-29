@@ -1,0 +1,5 @@
+<!--  
+			<p:selectManyCheckbox id="selectCheckbox" value="#{ambienteBean.ambientesSelecionados}" layout="responsive" columns="1">
+				<f:selectItems value="#{ambienteBean.ambientes}" var="ambiente" itemLabel="#{ambiente}" itemValue="#{ambiente.id}" />
+			</p:selectManyCheckbox>
+			-->

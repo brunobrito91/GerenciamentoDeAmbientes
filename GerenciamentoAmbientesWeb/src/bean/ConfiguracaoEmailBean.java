@@ -10,8 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -96,9 +94,10 @@ public class ConfiguracaoEmailBean implements Serializable {
 		} else {
 			_emailFacadeImpl.save(email);
 			addMessage(FacesMessage.SEVERITY_INFO, "Email cadastrado com sucesso!");
-//			FacesContext fc = FacesContext.getCurrentInstance();
-//			String uri = ((HttpServletRequest) fc.getExternalContext().getRequest()).getRequestURI();
-//			String[] str = uri.split("/");
+			// FacesContext fc = FacesContext.getCurrentInstance();
+			// String uri = ((HttpServletRequest)
+			// fc.getExternalContext().getRequest()).getRequestURI();
+			// String[] str = uri.split("/");
 			// return str[2] + "?faces-redirect=true";
 			return "";
 		}
@@ -139,46 +138,41 @@ public class ConfiguracaoEmailBean implements Serializable {
 	}
 
 	public String vincular() {
-		System.out.println("####################################");
+		if (emailSelecionado != null) {
+			List<Ambiente> ambientesVinculados = ambientes.getTarget();
+			List<Ambiente> ambientesNaoVinculados = ambientes.getSource();
 
-		List<Ambiente> ambientesVinculados = ambientes.getTarget();
-		List<Ambiente> ambientesNaoVinculados = ambientes.getSource();
-
-		System.out.println(emailSelecionado.getEmail());
-
-		for (Ambiente ambiente : ambientesVinculados) {
-			boolean contem = false;
-			System.out.println("Ambiente vinculado: " + ambiente);
-			Set<Email> emails = ambiente.getEmails();
-			for (Email email : emails) {
-				if (email.equals(emailSelecionado)) {
-					contem = true;
-					break;
+			for (Ambiente ambiente : ambientesVinculados) {
+				boolean contem = false;
+				Set<Email> emails = ambiente.getEmails();
+				for (Email email : emails) {
+					if (email.equals(emailSelecionado)) {
+						contem = true;
+						break;
+					}
+				}
+				if (!contem) {
+					_ambienteFacadeImpl.saveEmail(ambiente.getId(), emailSelecionado.getEmail());
 				}
 			}
-			if (!contem) {
-				System.out.println("Não contem o email selecionado");
-				_ambienteFacadeImpl.saveEmail(ambiente.getId(), emailSelecionado.getEmail());
-			}
-		}
 
-		for (Ambiente ambiente : ambientesNaoVinculados) {
-			System.out.println("Ambiente não vinculado: " + ambiente);
-			Set<Email> emails = ambiente.getEmails();
-			for (Email email : emails) {
-				if (email.equals(emailSelecionado)) {
-					System.out.println("Contem o email selecionado");
-					_ambienteFacadeImpl.deleteEmail(ambiente.getId(), emailSelecionado.getEmail());
-					break;
+			for (Ambiente ambiente : ambientesNaoVinculados) {
+				Set<Email> emails = ambiente.getEmails();
+				for (Email email : emails) {
+					if (email.equals(emailSelecionado)) {
+						_ambienteFacadeImpl.deleteEmail(ambiente.getId(), emailSelecionado.getEmail());
+						break;
+					}
 				}
 			}
+
+			emailSelecionado.setAmbientes(ambientesVinculados);
+			_emailFacadeImpl.update(emailSelecionado);
+
+			addMessage(FacesMessage.SEVERITY_INFO, "Associação realizada com sucesso!");
+		} else {
+			addMessage(FacesMessage.SEVERITY_ERROR, "Nenhum e-mail selecionado!");
 		}
-
-		emailSelecionado.setAmbientes(ambientesVinculados);
-		_emailFacadeImpl.update(emailSelecionado);
-
-		System.out.println("####################################");
-		addMessage(FacesMessage.SEVERITY_INFO, "Associação realizada com sucesso!");
 		return "";
 	}
 

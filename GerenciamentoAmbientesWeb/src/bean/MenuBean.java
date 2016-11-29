@@ -42,10 +42,12 @@ public class MenuBean implements Serializable {
 		List<Ambiente> ambientes = _ambienteFacadeImpl.findAll();
 
 		for (Ambiente ambiente : ambientes) {
-			DefaultMenuItem menuItem = new DefaultMenuItem(ambiente);
-			menuItem.setUpdate("@all");
-			menuItem.setCommand("#{ambienteBean.exibirPaginaAmbienteEscolhido}");
-			subMenu.addElement(menuItem);
+			if (ambiente.isAtivo()) {
+				DefaultMenuItem menuItem = new DefaultMenuItem(ambiente);
+				menuItem.setUpdate("@all");
+				menuItem.setCommand("#{ambienteBean.exibirPaginaAmbienteEscolhido}");
+				subMenu.addElement(menuItem);
+			}
 		}
 
 		menuModel.addElement(subMenu);
@@ -53,17 +55,19 @@ public class MenuBean implements Serializable {
 		UsuarioBean usuarioBean = new UsuarioBean();
 		if (usuarioBean.getIsAdministrador()) {
 			DefaultSubMenu subMenuConfiguracoes = new DefaultSubMenu("Configurações");
-			
+
 			DefaultMenuItem menuItemEmails = new DefaultMenuItem("Emails");
 			menuItemEmails.setCommand("configuracaoEmails.xhtml?faces-redirect=true");
-			// menuItemEmails.setCommand("#{configuracaoEmailBean.exibirPagina}");
 			subMenuConfiguracoes.addElement(menuItemEmails);
 
 			DefaultMenuItem menuItemIps = new DefaultMenuItem("Ips");
 			menuItemIps.setCommand("configuracaoIps.xhtml?faces-redirect=true");
-			// menuItemIps.setCommand("#{configuracaoEmailBean.exibirPagina}");
 			subMenuConfiguracoes.addElement(menuItemIps);
-			
+
+			DefaultMenuItem menuItemAmbientes = new DefaultMenuItem("Ambientes");
+			menuItemAmbientes.setCommand("configuracaoAmbientes.xhtml?faces-redirect=true");
+			subMenuConfiguracoes.addElement(menuItemAmbientes);
+
 			menuModel.addElement(subMenuConfiguracoes);
 		}
 

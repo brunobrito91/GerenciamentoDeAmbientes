@@ -2,34 +2,36 @@
 <ui:composition template="/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	
+
 	<ui:define name="conteudo">
 		<p:growl id="msgConteudo" sticky="true" />
-		<p:carousel value="#{ambienteBean.ambientes}" headerText="Ambientes" var="ambiente" itemStyle="text-align:center" numVisible="6" responsive="true">
-			<p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank"
-				id="pnlDadosAmbiente">
-				<f:facet name="header">
-					<h:outputText id="txtNomeAmbiente" value="#{ambiente.nome}" />
-				</f:facet>
-				<h:outputText id="txtTemperatura" value="Temperatura:" />
-				<p:outputLabel id="lblTemperatura" value="#{ambiente.temperaturaStr}" />
-				<h:outputText id="txtJanela" value="Janela:" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtStatusJanela" value="#{ambiente.statusJanelaStr}" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtPresenca" value="Presença:" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtStatusPresenca" value="#{ambiente.statusPresencaStr}" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtArCondicionado" value="Ar Condicionado:" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtStatusCondicionadorAr" value="#{ambiente.statusCondicionadorArStr}" rendered="#{ambiente.exibirDados}" />
-				<h:outputText id="txtVazio" value=" " rendered="#{ambiente.exibirDados}" />
-				<h:commandButton id="btnDesligarCondicionadorAr" value="Desligar" rendered="#{ambiente.exibirBotaoDesligar}"
-					actionListener="#{ambienteBean.desligarCondicionadorAr}">
-					<f:param name="ambienteSelecionado1" value="#{ambiente}" id="ambienteSelecionado1" />
-				</h:commandButton>
-				<h:commandButton id="btnLigarCondicionadorAr" value="Ligar" rendered="#{ambiente.exibirBotaoLigar}"
-					actionListener="#{ambienteBean.ligarCondicionadorAr}">
-					<f:param name="ambienteSelecionado2" value="#{ambiente}" id="ambienteSelecionado2" />
-				</h:commandButton>
-			</p:panelGrid>
-		</p:carousel>
+		<p:panel header="Ambientes" id="pnlAmbientes">
+			<p:dataGrid id="dgAmbientes" var="ambiente" value="#{ambienteBean.ambientesOrdenados}" columns="3">
+				<p:panel id="pnlAmbiente" header="#{ambiente.nome}" style="text-align:center">
+					<p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank"
+						id="pnlDadosAmbiente">
+
+						<h:outputText id="txtTemperatura" value="Temperatura:" />
+						<p:outputLabel id="lblTemperatura" value="#{ambiente.temperaturaStr}" />
+						<h:outputText id="txtJanela" value="Janela:" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtStatusJanela" value="#{ambiente.statusJanelaStr}" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtPresenca" value="Presença:" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtStatusPresenca" value="#{ambiente.statusPresencaStr}" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtArCondicionado" value="Ar Condicionado:" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtStatusCondicionadorAr" value="#{ambiente.statusCondicionadorArStr}" rendered="#{ambiente.exibirDados}" />
+						<h:outputText id="txtVazio" value=" " rendered="#{ambiente.exibirDados}" />
+						<h:commandButton id="btnDesligarCondicionadorAr" value="Desligar" rendered="#{ambiente.exibirBotaoDesligar}"
+							actionListener="#{ambienteBean.desligarCondicionadorAr}">
+							<f:param name="ambienteSelecionado1" value="#{ambiente}" id="ambienteSelecionado1" />
+						</h:commandButton>
+						<h:commandButton id="btnLigarCondicionadorAr" value="Ligar" rendered="#{ambiente.exibirBotaoLigar}"
+							actionListener="#{ambienteBean.ligarCondicionadorAr}">
+							<f:param name="ambienteSelecionado2" value="#{ambiente}" id="ambienteSelecionado2" />
+						</h:commandButton>
+					</p:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+		</p:panel>
 		<p:poll id="pollAmbientes" interval="60" update="formConteudo" />
 	</ui:define>
 </ui:composition>

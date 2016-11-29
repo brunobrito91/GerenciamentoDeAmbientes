@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,6 +39,10 @@ public class AmbienteBean implements Serializable {
 
 	private Ambiente ambiente;
 
+	private String[] ambientesSelecionados;
+
+	private List<Ambiente> ambientesOrdenados;
+
 	public AmbienteBean() {
 		System.out.println("AmbienteBean");
 	}
@@ -51,7 +56,17 @@ public class AmbienteBean implements Serializable {
 		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 
 		ambiente = (Ambiente) session.getAttribute("ambienteEscolhido");
+		ambientesSelecionados = inicializaAmbientesSelecionados();
+		ambientesOrdenados = new ArrayList<Ambiente>();
+	}
 
+	private String[] inicializaAmbientesSelecionados() {
+		List<Ambiente> ambAtivos = buscarAmbientesAtivos();
+		String[] ambientesAtivos = new String[ambAtivos.size()];
+		for (int i = 0; i < ambAtivos.size(); i++) {
+			ambientesAtivos[i] = String.valueOf(ambAtivos.get(i).getId());
+		}
+		return ambientesAtivos;
 	}
 
 	public String exibirPaginaAmbienteEscolhido(ActionEvent event) {
@@ -59,9 +74,8 @@ public class AmbienteBean implements Serializable {
 		Ambiente ambiente = (Ambiente) menuItem.getValue();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
-
+		System.out.println("Exibir Pagina Ambiente Escolhido");
 		session.setAttribute("ambienteEscolhido", ambiente);
-
 		HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
 		String ipAddress = request.getHeader("X-FORWARDED-FOR");
 		if (ipAddress == null) {
@@ -85,6 +99,11 @@ public class AmbienteBean implements Serializable {
 
 	public List<Ambiente> buscarAmbientes() {
 		List<Ambiente> ambientes = _ambienteFacadeImpl.findAll();
+		return ambientes;
+	}
+
+	public List<Ambiente> buscarAmbientesAtivos() {
+		List<Ambiente> ambientes = _ambienteFacadeImpl.findAllAtivos();
 		return ambientes;
 	}
 
@@ -136,12 +155,48 @@ public class AmbienteBean implements Serializable {
 		return buscarAmbientes();
 	}
 
+	public List<Ambiente> getAmbientesOrdenados() {
+		ambientesOrdenados = buscarAmbientesAtivos();
+		return ambientesOrdenados;
+
+	}
+
+	public void setAmbientesOrdenados(List<Ambiente> ambientesOrdenados) {
+		this.ambientesOrdenados = ambientesOrdenados;
+	}
+
+//	public List<Ambiente> getAmbientesAtivos() {
+//		ArrayList<Ambiente> ambientesAtivos = new ArrayList<Ambiente>();
+//		for (Ambiente ambiente : buscarAmbientes()) {
+//			if (ambiente.isAtivo()) {
+//				ambientesAtivos.add(ambiente);
+//			}
+//		}
+//		return ambientesAtivos;
+//	}
+
 	public String getNome() {
 		return ambiente.getNome();
 	}
 
 	public void setNome(String nome) {
 		ambiente.setNome(nome);
+	}
+
+	public String getDispositivo() {
+		return ambiente.getDispositivo().getIp();
+	}
+
+	public void setDispositivo(String dispositivo) {
+		ambiente.getDispositivo().setIp(dispositivo);
+	}
+
+	public String getNumero() {
+		return String.valueOf(ambiente.getNumero());
+	}
+
+	public void setNumero(String numero) {
+		ambiente.setNumero(Integer.valueOf(numero));
 	}
 
 	public int getTemperaturaAlerta() {
@@ -155,5 +210,77 @@ public class AmbienteBean implements Serializable {
 	public void addMessage(Severity severity, String mensagem) {
 		FacesMessage message = new FacesMessage(severity, mensagem, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public void setAmbientesSelecionados(String[] ambientesSelecionados) {
+		System.out.println("setAmbientesSelecionados " + ambientesSelecionados.length);
+		this.ambientesSelecionados = ambientesSelecionados;
+	}
+
+	public String[] getAmbientesSelecionados() {
+		System.out.println("getAmbientesSelecionados ");
+		return ambientesSelecionados;
+	}
+
+	// public String salvarConfiguracoesAmbiente() {
+	// ArrayList<Ambiente> ambSelecionados = new ArrayList<Ambiente>();
+	//
+	// for (String id : ambientesSelecionados) {
+	// Ambiente amb = _ambienteFacadeImpl.find(Integer.valueOf(id));
+	// if (amb != null) {
+	// amb.setAtivo(true);
+	// _ambienteFacadeImpl.update(amb);
+	// ambSelecionados.add(amb);
+	// }
+	// }
+	// for (Ambiente ambiente : buscarAmbientes()) {
+	// if (!ambSelecionados.contains(ambiente)) {
+	// ambiente.setAtivo(false);
+	// _ambienteFacadeImpl.update(ambiente);
+	// }
+	// }
+	// addMessage(FacesMessage.SEVERITY_INFO, "Configurações salvas com
+	// sucesso!");
+	// return "index.xhtml?faces-redirect=true";
+	// System.out.println("%%%% salvarConfiguracoesAmbiente");
+	// for (int i = 0; i < ambientesOrdenados.size(); i++) {
+	// Ambiente amb = ambientesOrdenados.get(i);
+	// amb.setOrdem(i);
+	// System.out.println(amb);
+	// _ambienteFacadeImpl.update(amb);
+	// }
+	// return "index.xhtml?faces-redirect=true";
+	// }
+
+	public String salvarOrdenacaoAmbiente() {
+		System.out.println("%%%% salvarConfiguracoesAmbiente");
+		for (int i = 0; i < ambientesOrdenados.size(); i++) {
+			Ambiente amb = ambientesOrdenados.get(i);
+			amb.setOrdem(i);
+			System.out.println(amb);
+			_ambienteFacadeImpl.update(amb);
+		}
+		return "index.xhtml?faces-redirect=true";
+	}
+
+	public String salvarHabilitarDesabilitarAmbiente() {
+		ArrayList<Ambiente> ambSelecionados = new ArrayList<Ambiente>();
+
+		for (String id : ambientesSelecionados) {
+			Ambiente amb = _ambienteFacadeImpl.find(Integer.valueOf(id));
+			if (amb != null) {
+				amb.setAtivo(true);
+				_ambienteFacadeImpl.update(amb);
+				ambSelecionados.add(amb);
+			}
+		}
+		for (Ambiente ambiente : buscarAmbientes()) {
+			if (!ambSelecionados.contains(ambiente)) {
+				ambiente.setAtivo(false);
+				_ambienteFacadeImpl.update(ambiente);
+			}
+		}
+		addMessage(FacesMessage.SEVERITY_INFO, "Configurações salvas com sucesso!");
+		return "index.xhtml?faces-redirect=true";
 	}
 }

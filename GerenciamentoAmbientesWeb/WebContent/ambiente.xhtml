@@ -12,6 +12,11 @@
 					<h:panelGrid columns="2" cellpadding="5" id="pnlDadosAmbiente">
 						<h:outputText id="txtAmbiente" value="Ambiente: " />
 						<h:inputText id="edtNomeAmbiente" value="#{ambienteBean.nome}" readonly="#{not usuarioBean.isAdministrador}" />
+						<h:outputText id="txtDispositivo" value="Dispositivo: " />
+						<h:inputText id="edtNomeDispositivo" value="#{ambienteBean.dispositivo}" readonly="#{not usuarioBean.isAdministrador}" />
+						<h:outputText id="txtPorta" value="Porta: " />
+						<h:inputText id="edtNomePorta" value="#{ambienteBean.numero}" readonly="#{not usuarioBean.isAdministrador}" />
+						
 						<h:outputText id="txtAlerta" value="Temp. Alerta: " />
 						<h:inputText id="edtTemperaturaAlertaAmbiente" value="#{ambienteBean.temperaturaAlerta}" readonly="#{not usuarioBean.isAdministrador}" />
 						<h:outputText />
