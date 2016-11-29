@@ -1,6 +1,7 @@
 package util;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -12,12 +13,9 @@ import com.facade.AmbienteFacade;
 import com.facade.AmbienteFacadeImpl;
 import com.facade.DispositivoFacade;
 import com.facade.DispositivoFacadeImpl;
-import com.facade.UsuarioFacade;
-import com.facade.UsuarioFacadeImpl;
 import com.model.Ambiente;
 import com.model.Ambiente.MedicaoTemperatura;
 import com.model.Dispositivo;
-import com.model.Usuario;
 import com.util.ClientUtility;
 import com.util.Lookup;
 
@@ -26,8 +24,6 @@ import email.Email;
 public class GerenciadorDeMensagem {
 	private DispositivoFacade _dispositivoFacadeImpl;
 	private AmbienteFacade _ambienteFacadeImpl;
-	private UsuarioFacade _usuarioFacadeImpl;
-
 	private Dispositivo _dispositivo;
 	private List<Ambiente> _ambientes;
 
@@ -38,8 +34,6 @@ public class GerenciadorDeMensagem {
 		_dispositivoFacadeImpl = (DispositivoFacade) doLookup(DispositivoFacadeImpl.class, DispositivoFacade.class);
 
 		_ambienteFacadeImpl = (AmbienteFacade) doLookup(AmbienteFacadeImpl.class, AmbienteFacade.class);
-
-		_usuarioFacadeImpl = (UsuarioFacade) doLookup(UsuarioFacadeImpl.class, UsuarioFacade.class);
 
 		_dispositivo = _dispositivoFacadeImpl.find(ip);
 
@@ -162,6 +156,19 @@ public class GerenciadorDeMensagem {
 				_dispositivo = _dispositivoFacadeImpl.find(_dispositivo.getIp());
 				_ambientes = _dispositivo.getAmbientes();
 
+				Collections.sort(_ambientes, new Comparator<Ambiente>() {
+
+					@Override
+					public int compare(Ambiente ambiente1, Ambiente ambiente2) {
+						if (ambiente1.getNumero() > ambiente2.getNumero()) {
+							return 1;
+						} else if (ambiente1.getNumero() < ambiente2.getNumero()) {
+							return -1;
+						}
+						return 0;
+					}
+				});
+
 				Log.logarSaida(_ambientes.size() + " ambientes cadastrados");
 				for (Ambiente ambiente : _ambientes) {
 					Log.logarSaida(ambiente.getNome() + " - id: " + ambiente.getId());
@@ -191,15 +198,18 @@ public class GerenciadorDeMensagem {
 				String mensagem = new String();
 				mensagem = "O ambiente " + ambiente.getId() + "-" + ambiente.getNome()
 						+ ", está com a temperatura elevada. Verifique!!";
-				ArrayList<Usuario> contatos = new ArrayList<>();
-
 				Log.logarSaida(mensagem);
 
-				for (Usuario usuario : _usuarioFacadeImpl.findAll()) {
-					contatos.add(usuario);
-				}
+				// for (Usuario usuario : _usuarioFacadeImpl.findAll()) {
+				// contatos.add(usuario);
+				// }
+				// Email email = new
+				// Email("GerenciamentoDeAmbientesEptvCentral@eptv.com.br",
+				// "Gerenciamento De Ambientes Eptv Central", contatos,
+				// "Temperatura Elevada", mensagem);
 				Email email = new Email("GerenciamentoDeAmbientesEptvCentral@eptv.com.br",
-						"Gerenciamento De Ambientes Eptv Central", contatos, "Temperatura Elevada", mensagem);
+						"Gerenciamento De Ambientes Eptv Central", ambiente.getEmails(), "Temperatura Elevada",
+						mensagem);
 				email.start();
 			}
 		}
